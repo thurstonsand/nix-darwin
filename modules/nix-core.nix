@@ -1,4 +1,4 @@
-{lib, ...}: {
+{...}: {
   # enable flakes globally
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -10,8 +10,14 @@
 
   # do garbage collection weekly to keep disk usage low
   nix.gc = {
-    automatic = lib.mkDefault true;
-    options = lib.mkDefault "--delete-older-than 7d";
+    automatic = true;
+    # run on zeroeth day each week
+    interval = {
+      Weekday = 0;
+      Hour = 0;
+      Minute = 0;
+    };
+    options = "--delete-older-than 7d";
   };
 
   # Disable auto-optimise-store because of this issue:

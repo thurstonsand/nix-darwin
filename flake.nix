@@ -56,14 +56,15 @@
         home-manager.darwinModules.home-manager
         {
           users.users.${username}.home = "/Users/${username}";
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = specialArgs;
-          # home-manager.users.${username} = import ./home { inherit username; };
-          home-manager.users.thurstonsand = {
-            imports = [
-              (import ./home/default.nix)
-            ];
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = specialArgs;
+            users.thurstonsand = {
+              imports = [
+                (import ./home/default.nix)
+              ];
+            };
           };
         }
         determinate.darwinModules.default

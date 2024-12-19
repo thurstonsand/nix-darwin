@@ -1,5 +1,4 @@
-{ pkgs, ...}: {
-
+{pkgs, ...}: {
   home.packages = with pkgs; [
     git-credential-manager
   ];
@@ -7,6 +6,7 @@
   programs = {
     direnv = {
       enable = true;
+      enableZshIntegration = true;
       nix-direnv.enable = true;
     };
 
@@ -15,6 +15,11 @@
       enableZshIntegration = true;
       git = true;
       icons = "auto";
+    };
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
     };
 
     git = {
@@ -39,17 +44,20 @@
         ];
       };
       extraConfig = {
-        credential = {
-          helper = "/usr/local/share/gcm-core/git-credential-manager";
-        };
-        gpg = {
-          format = "ssh";
-        };
-        "gpg \"ssh\"" = {
-          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        color.ui = "auto";
+        credential.helper = "/usr/local/share/gcm-core/git-credential-manager";
+        gpg.format = "ssh";
+        "gpg \"ssh\"".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        init.defaultBranch = "main";
+        pull.rebase = true;
+        push = {
+          default = "simple";
+          autoSetupRemote = true;
         };
       };
     };
+
+    htop.enable = true;
 
     lazygit.enable = true;
 
@@ -63,6 +71,14 @@
       withNodeJs = true;
       withPython3 = true;
       extraPython3Packages = ps: [ps.pynvim];
+    };
+
+    starship = {
+      enable = true;
+      settings = {
+        hostname.disabled = true;
+        username.disabled = true;
+      };
     };
 
     zsh = {
@@ -82,7 +98,16 @@
         "ll" = "ls -l";
         "la" = "ls -la";
         "l" = "ls -CF";
+        "switch" = "darwin-rebuild switch --flake ~/.config/nix-darwin";
       };
+    };
+
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--cmd j"
+      ];
     };
   };
 }
