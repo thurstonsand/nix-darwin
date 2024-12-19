@@ -2,7 +2,7 @@
   description = "Nix for MacOS";
 
   inputs = {
-    	nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
 
     # home-manager, used for managing user configuration
