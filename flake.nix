@@ -1,14 +1,6 @@
 {
   description = "Nix for MacOS";
 
-  # the nixConfig here only affects the flake itself, not the system configuration
-  #   nixConfig = {
-  #     substituters = [
-  #     # Query the mirror of USTC first, and then the official cache.
-  #     "https://mirrors.ustc.edu.cn/nix-channels/store"
-  #     "https://cache.nixos.org"
-  #     ];
-  # };
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
@@ -22,7 +14,13 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # don't use "follows" for nixpkgs here, as this can cause compat issues
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -31,6 +29,7 @@
     home-manager,
     darwin,
     determinate,
+    pre-commit-hooks,
     ...
   }: let
     username = "thurstonsand";
@@ -70,14 +69,26 @@
         determinate.darwinModules.default
       ];
     };
+    checks.${system} = {
+      # pre-commit hooks
+      pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          alejandra.enable = true;
+        };
+      };
+    };
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
     devShells.${system}.default = with nixpkgs.legacyPackages.${system}.pkgs;
       mkShell {
-        buildInputs = [
-          alejandra
-          nixd
-          nil
-        ];
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+        buildInputs =
+          [
+            alejandra
+            nixd
+            nil
+          ]
+          ++ self.checks.${system}.pre-commit-check.enabledPackages;
       };
   };
 }
