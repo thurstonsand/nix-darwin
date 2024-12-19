@@ -1,9 +1,20 @@
-{pkgs, ...}: {
-  # home.packages = with pkgs; [
-  #   nix-darwin
-  # ];
+{...}: {
 
   programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+      git = true;
+      icons = "auto";
+    };
+
+    lazygit.enable = true;
+
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -14,13 +25,6 @@
       withNodeJs = true;
       withPython3 = true;
       extraPython3Packages = ps: [ps.pynvim];
-    };
-
-    eza = {
-      enable = true;
-      enableZshIntegration = true;
-      git = true;
-      icons = "auto";
     };
 
     zsh = {

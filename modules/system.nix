@@ -104,4 +104,9 @@
   environment.shells = [
     pkgs.zsh
   ];
+
+  # enable direnv/nix develop envs
+  environment.systemPackages = with pkgs; [
+    nix-direnv
+  ];
 }
