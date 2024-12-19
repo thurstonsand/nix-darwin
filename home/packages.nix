@@ -1,4 +1,8 @@
-{...}: {
+{ pkgs, ...}: {
+
+  home.packages = with pkgs; [
+    git-credential-manager
+  ];
 
   programs = {
     direnv = {
@@ -11,6 +15,40 @@
       enableZshIntegration = true;
       git = true;
       icons = "auto";
+    };
+
+    git = {
+      enable = true;
+      ignores = [
+        ".DS_Store"
+        ".vscode"
+        ".cache"
+        ".nix"
+      ];
+      userEmail = "thurstonsand@gmail.com";
+      userName = "Thurston Sandberg";
+      signing = {
+        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF6GpY+hdZp60Fbnk9B03sntiJRx7OgLwutV5vJpV6P+";
+        signByDefault = true;
+      };
+      lfs.enable = true;
+      maintenance = {
+        enable = true;
+        repositories = [
+          "/Users/thurstonsand/.config/nix-darwin"
+        ];
+      };
+      extraConfig = {
+        credential = {
+          helper = "/usr/local/share/gcm-core/git-credential-manager";
+        };
+        gpg = {
+          format = "ssh";
+        };
+        "gpg \"ssh\"" = {
+          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        };
+      };
     };
 
     lazygit.enable = true;
