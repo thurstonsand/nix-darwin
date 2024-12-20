@@ -47,6 +47,8 @@
     darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
       inherit system specialArgs;
       modules = [
+        ./modules/enhanced-homebrew.nix
+        ./modules/homebrew.nix
         ./modules/nix-core.nix
         ./modules/system.nix
         ./modules/users.nix

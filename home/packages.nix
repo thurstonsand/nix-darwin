@@ -1,9 +1,16 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    ack
     git-credential-manager
+    prettyping
+    tldr
   ];
 
   programs = {
+    bat = {
+      enable = true;
+    };
+
     direnv = {
       enable = true;
       enableZshIntegration = true;
@@ -95,10 +102,14 @@
         save = 10000;
       };
       shellAliases = {
+        "cat" = "TRY bat\n; cat";
+        "grep" = "echo TRY ack\n; grep";
         "ll" = "ls -l";
         "la" = "ls -la";
         "l" = "ls -CF";
+        "ping" = "prettyping";
         "switch" = "darwin-rebuild switch --flake ~/.config/nix-darwin";
+        "top" = "htop";
       };
     };
 
