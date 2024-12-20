@@ -3,12 +3,12 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       cleanup = "uninstall";
       upgrade = true;
     };
     global = {
-      autoUpdate = false;
+      autoUpdate = true;
     };
 
     casks = [
