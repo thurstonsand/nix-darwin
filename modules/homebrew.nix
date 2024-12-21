@@ -14,10 +14,12 @@
     casks = [
       "1password"
       "1password-cli"
+      "chatgpt"
       "discord"
       "arc"
       "beeper"
       "contexts"
+      "cursor"
       "discord"
       "fantastical"
       "google-drive"

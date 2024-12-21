@@ -102,8 +102,6 @@
         save = 10000;
       };
       shellAliases = {
-        "cat" = "TRY bat\n; cat";
-        "grep" = "echo TRY ack\n; grep";
         "ll" = "ls -l";
         "la" = "ls -la";
         "l" = "ls -CF";
